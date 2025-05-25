@@ -15,4 +15,10 @@ public class HomeControllerImpl {
     public String home() {
         return "inicio";  // Thymeleaf carga home.html
     }
+
+    @GetMapping("/registro")
+    public String mostrarFormularioRegistro() {
+        return "registro";  // Thymeleaf renderiza registro.html
+    }
+
 }
