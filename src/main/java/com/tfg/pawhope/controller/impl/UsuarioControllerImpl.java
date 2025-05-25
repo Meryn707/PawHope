@@ -16,18 +16,13 @@ public class UsuarioControllerImpl {
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<UsuarioDTO> registrarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
 
         Usuario usuarioCreado = usuarioService.registrarUsuario(usuarioDTO);
         UsuarioDTO dtoCreado = usuarioService.usuarioToDto(usuarioCreado); //devolvemos el user ya guardado e incriptado
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoCreado);
-    }
-
-    @GetMapping("/pruebaHome") //se redirije a esta url tras una autenticación exitosa
-    public ResponseEntity<?> home() {
-        return ResponseEntity.ok("Login exitoso, esta es la página de inicio");
     }
 
 }
