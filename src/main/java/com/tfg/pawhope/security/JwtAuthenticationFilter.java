@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -23,30 +24,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
+        String path = request.getServletPath();
+
+        if ("/api/auth/login".equals(path)) {
+            chain.doFilter(request, response); // Permitir acceso a login sin token
+            return;
+        }
+
+        // Obtener token del header Authorization
         final String authHeader = request.getHeader("Authorization");
+        String token = null;
         String correo = null;
-        String jwt = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
-            if (jwtUtil.validateToken(jwt)) {
-                correo = jwtUtil.getCorreoFromToken(jwt);
+            token = authHeader.substring(7);
+            if (jwtUtil.validateToken(token)) {
+                correo = jwtUtil.getCorreoFromToken(token);
             }
         }
 
         if (correo != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // Aquí puedes crear un Authentication basado en el correo
             UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(correo, null, null);
+                    new UsernamePasswordAuthenticationToken(correo, null, List.of()); // sin roles por ahora
 
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 
-        filterChain.doFilter(request, response);
+        chain.doFilter(request, response); // continuar con la cadena de filtros
     }
+
 }
