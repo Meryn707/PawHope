@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class UsuarioServiceImpl implements UsuarioService {
@@ -27,9 +29,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioMapper.toDto(usuario);
     }
 
+
     public Usuario registrarUsuario(UsuarioDTO usuarioDTO) {
 
-        if (usuarioRepository.findByCorreo(usuarioDTO.getCorreo()).isPresent()) {
+        Optional <Usuario> usuarioOptional = usuarioRepository.findByCorreo(usuarioDTO.getCorreo());
+
+        if (usuarioOptional.isPresent()) {
             throw new RuntimeException("Correo ya registrado");
         }
 
@@ -39,10 +44,20 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    @Transactional
+
     public Usuario actualizar(UsuarioDTO usuarioDTO) {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         return usuarioRepository.save(usuario);
+    }
+
+    public Optional <Usuario> findByCorreo(String correo) {
+
+        Optional <Usuario> usuarioOptional = usuarioRepository.findByCorreo(correo);
+
+        if (usuarioOptional.isEmpty()) {
+            throw new RuntimeException("El correo no existe");
+        }
+        return usuarioOptional;
     }
 
 }
