@@ -1,4 +1,8 @@
 package com.tfg.pawhope.repository;
 
-public class AnimalRepository {
+import com.tfg.pawhope.model.Animal;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AnimalRepository extends JpaRepository<Animal, Long> {
+
 }

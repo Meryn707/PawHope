@@ -1,6 +1,7 @@
 package com.tfg.pawhope.service;
 
 import com.tfg.pawhope.dto.UsuarioDTO;
+import com.tfg.pawhope.excepciones.UsuarioYaExisteException;
 import com.tfg.pawhope.mapper.UsuarioMapper;
 import com.tfg.pawhope.model.Usuario;
 import com.tfg.pawhope.repository.UsuarioRepository;
@@ -35,7 +36,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Optional <Usuario> usuarioOptional = usuarioRepository.findByCorreo(usuarioDTO.getCorreo());
 
         if (usuarioOptional.isPresent()) {
-            throw new RuntimeException("Correo ya registrado");
+            throw new UsuarioYaExisteException("El correo ya está registrado");
         }
 
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO); // lo convertimos a entidad
