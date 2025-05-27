@@ -8,48 +8,45 @@
 <body>
 
 <nav>
-    <div class="logo">PawHope</div>
+    <div class="logo">🐾 PawHope</div>
     <ul id="nav-links">
         <li><a th:href="@{/}">Inicio</a></li>
         <li><a th:href="@{/about}">Sobre Nosotros</a></li>
         <li><a th:href="@{/contact}">Contacto</a></li>
     </ul>
     <div class="menu-toggle" id="menu-toggle">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div></div><div></div><div></div>
     </div>
 </nav>
 
 <main>
-    <h1>Bienvenido a PawHope</h1>
-    <p>Encuentra tu amigo fiel y ayuda a mascotas necesitadas.</p>
+    <header class="intro">
+        <h1>Descubre tu nuevo mejor amigo</h1>
+        <p>Explora animales en adopción y ayuda a cambiar vidas.</p>
+    </header>
 
     <section class="cards">
-        <div class="card">
-            <img src="https://place-puppy.com/300x180" alt="Perro 1" />
-            <div class="description">Este es Max, un perro adorable que busca hogar.</div>
-        </div>
-        <div class="card">
-            <img src="https://place-puppy.com/301x180" alt="Perro 2" />
-            <div class="description">Luna es una perrita muy cariñosa y juguetona.</div>
-        </div>
-        <div class="card">
-            <img src="https://place-puppy.com/302x180" alt="Perro 3" />
-            <div class="description">Rocky necesita un hogar que lo cuide y ame.</div>
+        <div th:each="animal : ${animales}" class="card">
+            <a th:href="@{/web/animales/{id}(id=${animal.idAnimal})}">
+                <div class="card-img">
+                    <img th:src="${animal.imagenUrl}" th:alt="${animal.nombre}" />
+                </div>
+                <div class="card-content">
+                    <h2 th:text="${animal.nombre}"></h2>
+                    <p class="card-desc" th:text="${#strings.abbreviate(animal.descripcion, 100)} + '...'"></p>
+                    <button class="detail-button">Ver detalles</button>
+                </div>
+            </a>
         </div>
     </section>
 </main>
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
-
     menuToggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
     });
-    /*]]>*/
 </script>
 
 </body>

@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login - PawHope</title>
+    <style>
+        .login-container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
 </head>
 <body>
-<h2>Iniciar sesión</h2>
-<form th:action="@{/perform_login}" method="post">
-    <label for="correo">Correo:</label>
-    <input type="text" id="correo" name="correo" required/>
-    <br/>
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" id="contrasena" name="contrasena" required/>
-    <br/>
-    <button type="submit">Entrar</button>
-</form>
+<div class="login-container">
+    <h2>Iniciar sesión</h2>
+    <form th:action="@{/perform_login}" method="post">
+        <div>
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required/>
+        </div>
+        <div>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required/>
+        </div>
+        <button type="submit">Entrar</button>
 
-<!-- Mostrar error si parámetro error=true está presente -->
-<div th:if="${param.error}">
-    <p style="color:red;">Correo o contraseña incorrectos</p>
-</div>
+        <!-- Mensajes de error/éxito -->
+        <div th:if="${param.error}" class="error">
+            Credenciales incorrectas
+        </div>
+        <div th:if="${param.logout}" class="success">
+            Has cerrado sesión correctamente
+        </div>
+    </form>
 
-<!-- Mostrar mensaje logout si parámetro logout=true está presente -->
-<div th:if="${param.logout}">
-    <p style="color:green;">Has cerrado sesión correctamente</p>
+    <button type="button" onclick="window.location.href='/pawhope/registro'">Registrarse</button>
 </div>
 </body>
 </html>

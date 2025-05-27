@@ -10,6 +10,7 @@ public interface UsuarioService {
 
     UsuarioDTO usuarioToDto (Usuario usuarioDTO);
     Usuario registrarUsuario(UsuarioDTO usuario);
-    Usuario actualizar(UsuarioDTO user);
-    Optional<Usuario> findByCorreo(String correo);
+    UsuarioDTO actualizar(UsuarioDTO user);
+    Optional<UsuarioDTO> findByCorreo(String correo);
+    Optional<UsuarioDTO> findByIdUsuario(Long idUsuario);
 }

@@ -19,7 +19,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final UsuarioMapper usuarioMapper;
 
-    public UsuarioServiceImpl(PasswordEncoder passwordEncoder,UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper) {
+    public UsuarioServiceImpl(PasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
@@ -42,23 +42,38 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO); // lo convertimos a entidad
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena())); //encriptamos la contraseña
 
+        System.out.println("Usuario a guardar: " + usuario);
+
         return usuarioRepository.save(usuario);
     }
 
 
-    public Usuario actualizar(UsuarioDTO usuarioDTO) {
+    public UsuarioDTO actualizar(UsuarioDTO usuarioDTO) {
+
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
+
+        return usuarioToDto(usuario);
     }
 
-    public Optional <Usuario> findByCorreo(String correo) {
+    public Optional <UsuarioDTO> findByCorreo(String correo) {
 
         Optional <Usuario> usuarioOptional = usuarioRepository.findByCorreo(correo);
 
         if (usuarioOptional.isEmpty()) {
             throw new RuntimeException("El correo no existe");
         }
-        return usuarioOptional;
+
+        UsuarioDTO dto = usuarioToDto(usuarioOptional.get());
+        return Optional.of(dto);
     }
 
+    public Optional <UsuarioDTO> findByIdUsuario(Long idUsuario) {
+
+        Optional <Usuario> usuarioOptional = usuarioRepository.findByIdUsuario(idUsuario);
+        if (usuarioOptional.isEmpty()) {
+            throw new RuntimeException("El usuario no existe");
+        }
+        return Optional.of(usuarioToDto(usuarioOptional.get()));
+    }
 }

@@ -1,7 +1,7 @@
 package com.tfg.pawhope.security;
 
 import com.tfg.pawhope.model.Usuario;
-import com.tfg.pawhope.service.UsuarioServiceImpl;
+import com.tfg.pawhope.repository.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,9 +21,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UsuarioServiceImpl usuarioServiceImpl) {
+    public UserDetailsService userDetailsService(UsuarioRepository usuarioRepository) {
         return username -> {
-            Usuario usuario = usuarioServiceImpl.findByCorreo(username)
+            Usuario usuario = usuarioRepository.findByCorreo(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
             return org.springframework.security.core.userdetails.User.withUsername(usuario.getCorreo())
                     .password(usuario.getContrasena()) // ya hasheada en BD
@@ -37,13 +37,23 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/registro", "/web/usuarios", "/web/usuarios/registro").permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/login",
+                                "/registro",
+                                "/web/animales/**",      // Permitir listado
+                                "/animal/**",   // Permitir detalles
+                                "/api/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/perform_login")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error=true")
                         .usernameParameter("correo")
                         .passwordParameter("contrasena")
