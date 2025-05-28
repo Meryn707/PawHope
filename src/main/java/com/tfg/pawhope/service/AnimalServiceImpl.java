@@ -11,11 +11,13 @@ import com.tfg.pawhope.repository.AnimalRepository;
 import com.tfg.pawhope.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
-import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -75,5 +77,35 @@ public class AnimalServiceImpl implements AnimalService {
 
         System.out.println("USUARIOOOOOOO" + animalGuardado.getResponsable().getIdUsuario());
         return animalDTO;
+    }
+
+    public List<Animal> filtrarAnimales(String especie, Integer edad) {
+        if (StringUtils.hasText(especie) && edad != null) {
+            return animalRepository.findByEspecieAndEdad(especie, edad);
+        } else if (StringUtils.hasText(especie)) {
+            return animalRepository.findByEspecie(especie);
+        } else if (edad != null) {
+            return animalRepository.findByEdad(edad);
+        } else {
+            return animalRepository.findAll();
+        }
+    }
+
+    public List<Animal> findByResponsable_IdUsuario(Long responsableIdUsuario) {
+        return animalRepository.findByResponsable_IdUsuario(responsableIdUsuario);
+    }
+
+    public void deleteAnimal (AnimalDTO animalDTO) {
+
+        if (animalDTO == null || animalDTO.getIdAnimal() == null) {
+            throw new IllegalArgumentException("ID de animal no puede ser nulo");
+        }
+
+        Animal animal = animalRepository.findById(animalDTO.getIdAnimal()).orElse(null);
+        if (animal == null) {
+            throw new RuntimeException("Animal no encontrado");
+        }
+
+        animalRepository.delete(animal);
     }
 }

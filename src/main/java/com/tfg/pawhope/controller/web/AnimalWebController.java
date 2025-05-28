@@ -4,6 +4,8 @@ import com.tfg.pawhope.dto.AnimalDTO;
 import com.tfg.pawhope.dto.UsuarioDTO;
 import com.tfg.pawhope.excepciones.AnimalNoExisteException;
 
+import com.tfg.pawhope.excepciones.UsuarioNoExisteException;
+import com.tfg.pawhope.model.Animal;
 import com.tfg.pawhope.model.Usuario;
 import com.tfg.pawhope.service.AnimalServiceImpl;
 import com.tfg.pawhope.service.UsuarioServiceImpl;
@@ -19,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -52,18 +55,28 @@ public class AnimalWebController {
         }
     }
 
+    @GetMapping("/miAnimal/{idAnimal}")
+    public String detalleMiAnimal(
+            @PathVariable("idAnimal") Long idAnimal,
+            Model model,
+            RedirectAttributes redirectAttrs) {
+
+        try {
+            AnimalDTO animal = animalServiceImpl.findByIdAnimal(idAnimal);
+            model.addAttribute("animal", animal);
+            return "mi_animal";
+        } catch (AnimalNoExisteException ex) {
+            redirectAttrs.addFlashAttribute("error", "Animal no encontrado");
+            return "redirect:/";
+        }
+    }
+
     @GetMapping("/registrar")
     public String mostrarFormularioCreacion(Model model) {
         model.addAttribute("animal", new AnimalDTO());
         return "formulario-registrarAnimal";
     }
 
-   /* @PostMapping
-    public String crearAnimal(@ModelAttribute AnimalDTO animalDTO, RedirectAttributes ra) {
-        animalServiceImpl.guardarAnimal(animalDTO);
-        ra.addFlashAttribute("exito", "Animal registrado correctamente");
-        return "redirect:/web/animales";
-    }*/
 
     @PostMapping("/registrar")
     public String crearAnimal(@ModelAttribute AnimalDTO animalDTO,
@@ -102,6 +115,20 @@ public class AnimalWebController {
         return "redirect:/";
     }
 
+    @GetMapping("/")
+    public String listarAnimales(
+            @RequestParam(required = false) String especie,
+            @RequestParam(required = false) Integer edad,
+            Model model) {
+
+        System.out.println("Filtro especie: " + especie);
+        System.out.println("Filtro edad: " + edad);
+
+        var animalesFiltrados = animalServiceImpl.filtrarAnimales(especie, edad);
+        model.addAttribute("animales", animalesFiltrados);
+
+        return "inicio";
+    }
 
 
     //ugardamos el archivo en uploads
@@ -118,6 +145,45 @@ public class AnimalWebController {
 
         // Devuelve la ruta relativa para usarla luego como URL
         return "/uploads/" + nombreArchivo;
+    }
+
+    @GetMapping("/mis-animales")
+    public String verMisAnimales(Model model, Authentication authentication) {
+        String correo = authentication.getName(); // correo es el username
+        Optional<UsuarioDTO> optionalUsuario = usuarioServiceImpl.findByCorreo(correo);
+
+        if (optionalUsuario.isEmpty()) {
+            throw new UsuarioNoExisteException("Usuario no encontrado");
+        }
+        System.out.println("ID Usuario autenticado: " + optionalUsuario.get().getIdUsuario()); //
+        List<Animal> misAnimales = animalServiceImpl.findByResponsable_IdUsuario(optionalUsuario.get().getIdUsuario());
+        model.addAttribute("animales", misAnimales);
+
+        return "mis_animales"; // crea esta vista
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminarAnimal(@PathVariable Long id, Authentication auth) {
+
+        AnimalDTO animal = animalServiceImpl.findByIdAnimal(id);
+        if (animal == null) {
+            throw new RuntimeException("Animal no encontrado");
+        }
+
+        String correo = auth.getName();
+        Optional <UsuarioDTO> usuario = usuarioServiceImpl.findByCorreo(correo);
+
+        if (usuario.isEmpty()) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+        if (!animal.getIdUsuario().equals(usuario.get().getIdUsuario())) {
+            throw new RuntimeException("No autorizado");
+        }
+
+        animalServiceImpl.deleteAnimal(animal);
+
+        return "redirect:/web/animales/mis-animales";
     }
 
 

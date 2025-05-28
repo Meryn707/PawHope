@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Mis Animales - PawHope</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+<body>
+
+<nav style="display: flex; justify-content: space-between; align-items: center;">
+    <!-- Reutiliza el mismo menú de navegación si lo tienes en un fragmento -->
+    <a th:href="@{/}" class="logo">🐾 PawHope</a>
+</nav>
+
+<main>
+    <header class="intro">
+        <h1>Mis Animales Publicados</h1>
+        <p>Aquí puedes ver los animales que has registrado para adopción.</p>
+    </header>
+
+    <section class="cards">
+        <div th:if="${#lists.isEmpty(animales)}">
+            <p style="padding: 1rem;">No has publicado ningún animal todavía.</p>
+        </div>
+        <div th:each="animal : ${animales}" class="card">
+            <a th:href="@{/web/animales/miAnimal/{id}(id=${animal.idAnimal})}">
+                <div class="card-img">
+                    <img th:src="@{${animal.imagenUrl}}" th:alt="${animal.nombre}" />
+                </div>
+                <div class="card-content">
+                    <h2 th:text="${animal.nombre}"></h2>
+                    <p class="card-desc" th:text="${#strings.abbreviate(animal.descripcion, 100)} + '...'"></p>
+                    <button class="detail-button">Ver detalles</button>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

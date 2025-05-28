@@ -38,11 +38,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/", "/css/**", "/js/**", "/images/**",
+                                "/", "/css/**", "/js/**",
                                 "/login", "/registro",
                                 "/web/animales",           // listado público
                                 "/animal/**",              // detalles público si quieres
-                                "/api/**"
+                                "/api/**", "/uploads/**"
                         ).permitAll()
                         // Deja accesible el detalle animal solo si el id es numérico (o usa otro patrón)
                         // Esto depende de cómo lo tengas configurado, si no, puedes requerir autenticación también aquí
@@ -65,7 +65,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
+                        .logoutSuccessUrl("/") // "/login?logout=true"
                         .permitAll()
                 );
         return http.build();

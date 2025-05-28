@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Entity
 @Table(name = "animales")
@@ -48,6 +49,9 @@ public class Animal {
     @ManyToOne(optional = false)
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario responsable;
+
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.REMOVE, orphanRemoval = true) //si se borra este animal tmabién las solicitudes asociadas
+    private List<SolicitudAdopcion> solicitudes;
 
     @Lob
     private byte[] imagen;

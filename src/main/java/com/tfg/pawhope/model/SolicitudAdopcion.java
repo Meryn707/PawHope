@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "solicitudes_adopcion")
 @Data
@@ -38,5 +40,7 @@ public class SolicitudAdopcion {
 
     @Column(nullable = false, length = 1000)
     private String motivo;   // Por qué desea adoptar
+
+
 }
 

@@ -53,7 +53,37 @@ nav ul li a:hover {
     color: #9333ea;
 }
 
-/* Responsive menu */
+/* Dropdown common */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+    list-style: none;
+    min-width: 12rem;
+    z-index: 1000;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #d1fae5; /* verde claro */
+}
+
+/* Responsive menu toggle */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -250,65 +280,197 @@ form h2 {
     text-align: center;
     margin-bottom: 1rem;
     background: linear-gradient(to right, #9333ea, #ec4899);
-    color: transparent;
     -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
 }
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="date"],
+select {
     width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e9d5ff;
-    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
     margin-bottom: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
     font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
-input:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+select:focus {
     outline: none;
-    border-color: #a855f7;
-}
-
-.error {
-    color: #dc2626;
-    font-weight: 500;
-}
-
-.success {
-    color: #16a34a;
-    font-weight: 500;
+    border-color: #9333ea;
 }
 
 /* Responsive */
+
 @media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        position: fixed;
+        top: 65px;
+        right: -100%;
+        background: white;
+        width: 60%;
+        height: 100vh;
+        padding: 2rem;
+        gap: 1.5rem;
+        transition: right 0.3s ease;
+        box-shadow: -8px 0 20px rgba(147, 51, 234, 0.1);
+    }
+
+    nav ul.active {
+        right: 0;
+    }
+
     .menu-toggle {
         display: flex;
     }
 
-    nav ul {
-        position: absolute;
-        top: 60px;
+    /* Ajuste dropdown filtros para que sea horizontal */
+    #filtros-menu {
+        max-width: 240px;
+        overflow-wrap: break-word;
+        right: 0; /* Alinearlo a la derecha del contenedor padre */
+        left: auto;
+    }
+
+
+    /* Mostrar dropdown */
+    #filtros-menu.show {
+        display: flex;
+    }
+
+    /* Quitar iconos y estilos extra del botón filtros */
+    #filtros-btn {
+        background: none;
+        border: 1px solid #9333ea;
+        color: #9333ea;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    #filtros-btn:hover {
+        background-color: #ec4899;
+        color: white;
+    }
+
+    /* Estilo links del filtro */
+    #filtros-menu li a {
+        padding: 0.3rem 0.8rem;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+        color: #4b5563;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    #filtros-menu li a:hover {
+        background-color: #d1fae5;
+        color: #166534;
+    }
+
+    /* Categorías dentro del filtro para que tomen todo el ancho */
+    .filter-category {
+        width: 100%;
+        color: #9333ea;
+        font-weight: 700;
+        padding-left: 0.5rem;
+    }
+
+
+    /* Estilos para los dropdowns */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-menu {
+        display: none;
         right: 0;
-        background: rgba(255, 255, 255, 0.95);
-        flex-direction: column;
-        width: 200px;
-        height: calc(100vh - 60px);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        padding-top: 1rem;
-        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.05);
     }
 
-    nav ul.active {
-        transform: translateX(0);
+    .dropdown:hover .dropdown-menu {
+        display: block;
     }
 
-    .animal-header {
-        grid-template-columns: 1fr;
+    /* Estilos para los filtros activos */
+    .active-filter {
+        background-color: #f0fdf4;
+        border-color: #86efac;
+        font-weight: 500;
     }
 
-    .intro h1 {
-        font-size: 2rem;
+    /* Mejoras específicas para el dropdown de filtros */
+    #filtros-menu {
+        /* Posición y tamaño */
+        right: 0;
+        left: auto; /* Anula el left:0 anterior */
+        width: 280px; /* Ancho fijo suficiente */
+        max-height: 80vh; /* Limita altura */
+        overflow-y: auto; /* Scroll si es necesario */
+
+        /* Espaciado interno */
+        padding: 0.75rem;
+
+        /* Diseño */
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+        /* Organización */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    /* Categorías de filtros */
+    .filter-category {
+        grid-column: span 2;
+        padding: 0.5rem 0.75rem;
+        font-weight: 700;
+        color: #9333ea;
+        border-bottom: 1px solid #f3e8ff;
+        margin-bottom: 0.25rem;
+    }
+
+    /* Items de filtro */
+    #filtros-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        width: 256px;
+        max-width: 90vw;
+        background-color: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 0.5rem;
+        z-index: 999;
+    }
+
+    #filtros-menu li:not(.filter-category) a:hover {
+        background-color: #f3e8ff;
+        color: #7e22ce;
+    }
+
+    /* Para pantallas pequeñas */
+    @media (max-width: 768px) {
+        #filtros-menu {
+            width: 90vw;
+            max-width: 300px;
+            right: 1rem;
+            left: auto;
+        }
     }
 }

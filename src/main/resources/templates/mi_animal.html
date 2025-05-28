@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="|${animal.nombre} - PawHope|">Detalle Animal</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+<body>
+
+<nav>
+    <div class="logo">PawHope</div>
+    <ul id="nav-links">
+        <li><a th:href="@{/}">Inicio</a></li>
+        <li><a th:href="@{/about}">Sobre Nosotros</a></li>
+        <li><a th:href="@{/contact}">Contacto</a></li>
+    </ul>
+</nav>
+
+<main class="animal-detail" style="max-width: 900px; margin: 120px auto 40px; padding: 1rem;">
+    <!-- Botón de regreso -->
+    <a th:href="@{/}" class="btn" style="margin-bottom: 2rem; display: inline-block;">← Volver al inicio</a>
+
+    <!-- Imagen y nombre -->
+    <div class="animal-header" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+        <div class="image-container" style="position: relative;">
+            <img th:src="@{${animal.imagenUrl}}" th:alt="${animal.nombre}"
+                 class="animal-image" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1);" />
+        </div>
+
+        <div class="info" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.05);">
+            <h1 th:text="${animal.nombre}" style="font-size: 2rem; margin-bottom: 1rem;">Nombre del animal</h1>
+            <hr style="border: none; height: 4px; width: 80px; background: linear-gradient(to right, #fbbf24, #f97316); margin-bottom: 1rem;" />
+
+            <p><strong>Especie:</strong> <span th:text="${animal.especie}">Especie</span></p>
+            <p><strong>Raza:</strong> <span th:text="${animal.raza}">Raza</span></p>
+            <p><strong>Edad:</strong> <span th:text="${animal.edad}">Edad</span></p>
+        </div>
+    </div>
+
+    <!-- Descripción -->
+    <section class="descripcion" style="margin-top: 2rem;">
+        <div style="background: white; padding: 1.5rem 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Descripción</h2>
+            <p th:text="${animal.descripcion}" style="line-height: 1.6; margin-bottom: 2rem;">
+                Texto descriptivo del animal
+            </p>
+
+
+            <a th:href="@{/web/animales/editar/{id}(id=${animal.idAnimal})}" class="btn-edit" style="background-color: #3b82f6; color: white; padding: 0.4rem 1rem; border-radius: 5px; text-decoration: none;">✏️ Editar</a>
+
+            <form th:action="@{/web/animales/eliminar/{id}(id=${animal.idAnimal})}" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar este animal?');" style="display: inline;">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit" class="btn-delete" style="background-color: #ef4444; color: white; padding: 0.4rem 1rem; border-radius: 5px; border: none; cursor: pointer;">🗑️ Eliminar</button>
+            </form>
+        </div>
+    </section>
+
+
+</main>
+
+</body>
+</html>
