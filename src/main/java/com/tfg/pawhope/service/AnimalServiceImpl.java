@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,21 +57,23 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     public AnimalDTO guardarAnimal(AnimalDTO animalDTO) {
-
         Animal animal = animalMapper.toEntity(animalDTO);
         Optional<Usuario> usuario = usuarioRepository.findByIdUsuario(animalDTO.getIdUsuario());
 
         if (usuario.isEmpty()) {
             throw new UsuarioNoExisteException("El usuario responsable no existe");
         }
+
+        animal.setImagenUrl(animalDTO.getImagenUrl());
         animal.setResponsable(usuario.get());
 
         Animal animalGuardado = animalRepository.save(animal);
+
         AnimalDTO dto = animalToDto(animalGuardado);
         dto.setIdAnimal(animalGuardado.getIdAnimal());
-        dto.setIdUsuario(animalDTO.getIdUsuario());
+        dto.setIdUsuario(animalGuardado.getResponsable().getIdUsuario());
 
-        return dto;
+        System.out.println("USUARIOOOOOOO" + animalGuardado.getResponsable().getIdUsuario());
+        return animalDTO;
     }
-
 }

@@ -48,4 +48,7 @@ public class Animal {
     @ManyToOne(optional = false)
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario responsable;
+
+    @Lob
+    private byte[] imagen;
 }

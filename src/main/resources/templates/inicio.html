@@ -13,6 +13,8 @@
         <li><a th:href="@{/}">Inicio</a></li>
         <li><a th:href="@{/about}">Sobre Nosotros</a></li>
         <li><a th:href="@{/contact}">Contacto</a></li>
+        <li><a th:href="@{/web/animales/registrar}">Registrar Animal</a></li>
+
     </ul>
     <div class="menu-toggle" id="menu-toggle">
         <div></div><div></div><div></div>
@@ -29,7 +31,7 @@
         <div th:each="animal : ${animales}" class="card">
             <a th:href="@{/web/animales/{id}(id=${animal.idAnimal})}">
                 <div class="card-img">
-                    <img th:src="${animal.imagenUrl}" th:alt="${animal.nombre}" />
+                    <img th:src="@{${animal.imagenUrl}}" th:alt="${animal.nombre}" />
                 </div>
                 <div class="card-content">
                     <h2 th:text="${animal.nombre}"></h2>

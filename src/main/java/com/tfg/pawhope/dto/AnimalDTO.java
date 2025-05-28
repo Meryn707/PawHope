@@ -3,6 +3,7 @@ package com.tfg.pawhope.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -34,9 +35,10 @@ public class AnimalDTO {
     @Size(min = 10, max = 1000)
     private String descripcion;
 
-    @NotNull(message = "La imagen es obligatoria")
     private String imagenUrl;
 
     @NotNull(message = "El ID del responsable es obligatorio")
     private Long idUsuario; // ID del responsable
+
+    private MultipartFile imagen;  // Para recibir el archivo en el form
 }

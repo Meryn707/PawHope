@@ -76,4 +76,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         return Optional.of(usuarioToDto(usuarioOptional.get()));
     }
+
+    public Long obtenerIdUsuarioPorCorreo(String correo) {
+
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByCorreo(correo);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            return usuario.getIdUsuario();
+        } else {
+            throw new RuntimeException("Usuario no encontrado con correo: " + correo);
+        }
+    }
+
 }

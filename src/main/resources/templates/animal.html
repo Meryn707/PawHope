@@ -23,7 +23,8 @@
     <!-- Imagen y nombre -->
     <div class="animal-header" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
         <div class="image-container" style="position: relative;">
-            <img th:src="${animal.imagenUrl}" th:alt="${animal.nombre}" class="animal-image" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1);" />
+            <img th:src="@{${animal.imagenUrl}}" th:alt="${animal.nombre}"
+            class="animal-image" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1);" />
         </div>
 
         <div class="info" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.05);">

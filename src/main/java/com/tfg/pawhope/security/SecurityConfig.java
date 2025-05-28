@@ -38,18 +38,22 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**",
-                                "/login",
-                                "/registro",
-                                "/web/animales/**",      // Permitir listado
-                                "/animal/**",   // Permitir detalles
+                                "/", "/css/**", "/js/**", "/images/**",
+                                "/login", "/registro",
+                                "/web/animales",           // listado público
+                                "/animal/**",              // detalles público si quieres
                                 "/api/**"
                         ).permitAll()
+                        // Deja accesible el detalle animal solo si el id es numérico (o usa otro patrón)
+                        // Esto depende de cómo lo tengas configurado, si no, puedes requerir autenticación también aquí
+
+                        // Protege registrar
+                        .requestMatchers("/web/animales/registrar").authenticated()
+
+                        // Para todo lo demás que no está declarado explícitamente, pide autenticación
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/perform_login")

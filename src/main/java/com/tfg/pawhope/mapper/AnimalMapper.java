@@ -10,7 +10,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AnimalMapper {
 
+    @Mapping(target = "imagen", ignore = true)
     AnimalDTO toDto(Animal animal);
+
+    @Mapping(target = "imagen", ignore = true)
     Animal toEntity(AnimalDTO animalDTO);
 
     List<AnimalDTO> listToDto(List<Animal> animales);
