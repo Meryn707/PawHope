@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Publicar Animal</title>
+    <link rel="stylesheet" th:href="@{/css/formulario.css}" />
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>Publicar nuevo animal</h2>
+
+<form th:action="@{/web/animales}" method="post" th:object="${animal}">
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required/><br/>
+
+    <label>Edad:</label>
+    <input type="number" th:field="*{edad}" required/><br/>
+
+    <label>Raza:</label>
+    <input type="text" th:field="*{raza}" required/><br/>
+
+    <label>Descripción:</label>
+    <textarea th:field="*{descripcion}" required></textarea><br/>
+
+    <label>Tipo:</label>
+    <select th:field="*{tipo}">
+        <option value="Perro">Perro</option>
+        <option value="Gato">Gato</option>
+    </select><br/>
+
+    <label>Disponible para adopción:</label>
+    <input type="checkbox" th:field="*{disponible}" /><br/>
+
+    <button type="submit">Publicar</button>
+</form>
+
+<a href="/" th:href="@{/}">Volver</a>
+</body>
+</html>

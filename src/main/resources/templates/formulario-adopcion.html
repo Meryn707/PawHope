@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Formulario de Adopción - PawHope</title>
+    <link rel="stylesheet" th:href="@{/css/formulario.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+</head>
+<body>
+
+<nav>
+    <div class="logo">🐾 <span>PawHope</span></div>
+    <ul id="nav-links">
+        <li><a th:href="@{/}">Inicio</a></li>
+        <li><a th:href="@{/about}">Sobre Nosotros</a></li>
+        <li><a th:href="@{/contact}">Contacto</a></li>
+    </ul>
+</nav>
+
+<main class="formulario-adopcion">
+    <h2>Formulario de Adopción</h2>
+    <p>Completa los datos para solicitar la adopción de <span th:text="${animal.nombre}">este animal</span>.</p>
+
+    <form th:action="@{/adopcion/enviar}" method="post" class="formulario">
+        <input type="hidden" name="idAnimal" th:value="${animal.idAnimal}" />
+
+        <label for="nombre">Nombre y Apellidos:</label>
+        <input type="text" id="nombre" name="nombre" required />
+
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="telefono">Número de Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required />
+
+        <label for="motivo">¿Por qué te ha gustado este animal?</label>
+        <textarea id="motivo" name="motivo" rows="4" required></textarea>
+
+        <button type="submit" class="btn">Enviar Solicitud de Adopción</button>
+    </form>
+</main>
+
+</body>
+</html>

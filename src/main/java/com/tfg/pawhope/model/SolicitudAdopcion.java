@@ -18,12 +18,25 @@ public class SolicitudAdopcion {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    private Usuario usuario; // Puede ser null si no está autenticado
 
-    @ManyToOne
-    @JoinColumn(name = "id_animal")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_animal", nullable = false)
     private Animal animal;
 
-    private String estado; // "Pendiente", "Aprobada", "Rechazada", etc.
+    @Column(nullable = false)
+    private String estado; // "Pendiente", "Aprobada", "Rechazada"
+
+    @Column(nullable = false)
+    private String nombre;  // Nombre y apellidos del adoptante
+
+    @Column(nullable = false)
+    private String email;   // Correo electrónico
+
+    @Column(nullable = false)
+    private String telefono; // Teléfono de contacto
+
+    @Column(nullable = false, length = 1000)
+    private String motivo;   // Por qué desea adoptar
 }
 

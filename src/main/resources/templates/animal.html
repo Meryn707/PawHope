@@ -40,7 +40,18 @@
     <section class="descripcion" style="margin-top: 2rem;">
         <div style="background: white; padding: 1.5rem 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
             <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Descripción</h2>
-            <p th:text="${animal.descripcion}" style="line-height: 1.6;">Texto descriptivo del animal</p>
+            <p th:text="${animal.descripcion}" style="line-height: 1.6; margin-bottom: 2rem;">
+                Texto descriptivo del animal
+            </p>
+
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">¿Te interesa el peludo?</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem;">
+                Rellena el formulario para que podamos darte más información
+            </p>
+
+            <form th:action="@{/adopcion/formulario/{id}(id=${animal.idAnimal})}" method="get">
+                <button type="submit" class="btn-form">Rellenar formulario</button>
+            </form>
         </div>
     </section>
 
