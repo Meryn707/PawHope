@@ -37,6 +37,10 @@
                     <a th:href="@{/web/animales/mis-animales}" class="block px-4 py-2 hover:bg-blue-50">Mis Animales</a>
                 </li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a th:href="@{/web/usuarios/notificaciones}" class="block px-4 py-2 hover:bg-blue-50">Notificaciones</a>
+                </li>
+
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
                     <a th:href="@{/logout}" class="block px-4 py-2 text-red-600 hover:bg-red-50">Cerrar Sesión</a>
                 </li>
             </ul>
@@ -58,7 +62,7 @@
     </ul>
 
     <!-- Logo ahora a la derecha -->
-    <div class="logo">🐾 PawHope</div>
+    <a th:href="@{/}" class="logo">🐾 PawHope</a>
 </nav>
 
 

@@ -1,0 +1,161 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to bottom right, #fdf2f8, #f3e8ff, #e0e7ff);
+    color: #333;
+}
+
+/* Navbar */
+nav {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e9d5ff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #9333ea, #ec4899);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+nav ul li a {
+    color: #4b5563;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #9333ea;
+}
+
+/* Main layout */
+main {
+    max-width: 900px;
+    margin: 120px auto 40px;
+    padding: 1rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Título principal */
+main h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #9333ea, #ec4899);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* Estilo para las cards de las solicitudes */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+main div ul li {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.15); /* Sombra morada suave */
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+main div ul li:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(147, 51, 234, 0.3);
+    border-color: #9333ea;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card-link p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+}
+
+.card-link strong {
+    color: #9333ea;
+    font-weight: 700;
+}
+
+.card-link em {
+    font-style: italic;
+    color: #10b981; /* Verde agradable */
+}
+
+/* Para el motivo de la solicitud */
+.card-link span {
+    font-weight: 500;
+    color: #6b7280; /* Gris suave */
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    ul li {
+        padding: 1rem 1rem;
+    }
+
+    .card-link p {
+        font-size: 1rem;
+    }
+}
+
+.estado {
+    font-weight: bold;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.estado.pendiente {
+    background-color: #fef08a; /* amarillo suave */
+    color: #92400e;
+}
+
+.estado.aceptada {
+    background-color: #bbf7d0; /* verde claro */
+    color: #166534;
+}
+
+.estado.rechazada {
+    background-color: #fecaca; /* rojo suave */
+    color: #7f1d1d;
+}
+
+
+

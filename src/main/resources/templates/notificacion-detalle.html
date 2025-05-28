@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Detalle Petición - PawHope</title>
+    <link rel="stylesheet" th:href="@{/css/notificacion-detalle.css}" />
+</head>
+<body>
+
+<nav>
+    <a th:href="@{/}" class="logo">🐾 PawHope</a>
+    <ul id="nav-links">
+        <li><a th:href="@{/}">Inicio</a></li>
+        <li><a th:href="@{/about}">Sobre Nosotros</a></li>
+        <li><a th:href="@{/contact}">Contacto</a></li>
+    </ul>
+</nav>
+
+<main style="max-width: 900px; margin: 120px auto 40px; padding: 1rem;">
+    <h1>Detalles de la petición</h1>
+
+    <div class="detalle-solicitud">
+        <p><strong>Solicitante:</strong> <span th:text="${solicitud.nombre}">Nombre</span></p>
+        <p><strong>Email:</strong> <span th:text="${solicitud.email}">Email</span></p>
+        <p><strong>Teléfono:</strong> <span th:text="${solicitud.telefono}">Teléfono</span></p>
+        <p><strong>Estado:</strong> <span th:text="${solicitud.estado}">Estado</span></p>
+        <p><strong>Motivo:</strong></p>
+        <p th:text="${solicitud.motivo}">Motivo del solicitante</p>
+    </div>
+
+    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+        <form th:action="@{/web/solicitudes/estado/{id}(id=${solicitud.id})}" method="post">
+            <input type="hidden" name="nuevoEstado" value="ACEPTADA" />
+            <button type="submit" class="btn aceptar">Aceptar</button>
+        </form>
+
+        <form th:action="@{/web/solicitudes/estado/{id}(id=${solicitud.id})}" method="post">
+            <input type="hidden" name="nuevoEstado" value="RECHAZADA" />
+            <button type="submit" class="btn rechazar">Rechazar</button>
+        </form>
+    </div>
+
+
+</main>
+
+</body>
+</html>

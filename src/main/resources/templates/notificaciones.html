@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Notificaciones - PawHope</title>
+    <link rel="stylesheet" th:href="@{/css/notificaciones.css}" />
+</head>
+<body>
+
+<nav>
+    <a th:href="@{/}" class="logo">🐾 PawHope</a>
+    <ul id="nav-links">
+        <li><a th:href="@{/}">Inicio</a></li>
+        <li><a th:href="@{/about}">Sobre Nosotros</a></li>
+        <li><a th:href="@{/contact}">Contacto</a></li>
+    </ul>
+</nav>
+
+<main style="max-width: 900px; margin: 120px auto 40px; padding: 1rem;">
+    <h1>Peticiones de Adopción</h1>
+
+    <div th:if="${solicitudes.isEmpty()}">
+        <p>No hay notificaciones por ahora.</p>
+    </div>
+
+    <div th:unless="${solicitudes.isEmpty()}">
+        <ul>
+            <li th:each="solicitud : ${solicitudes}">
+                <a th:href="@{/web/solicitudes/{id}(id=${solicitud.id})}" class="card-link">
+                    <p><strong th:text="${solicitud.nombre}">Nombre del solicitante</strong> quiere adoptar
+                        <span th:text="${solicitud.animal.nombre}">nombre animal</span>.
+                        Estado:
+                        <em th:if="${solicitud.estado} == 'PENDIENTE'"
+                            class="estado pendiente"
+                            th:text="${solicitud.estado}">PENDIENTE</em>
+
+                        <em th:if="${solicitud.estado} == 'ACEPTADA'"
+                            class="estado aceptada"
+                            th:text="${solicitud.estado}">ACEPTADA</em>
+
+                        <em th:if="${solicitud.estado} == 'RECHAZADA'"
+                            class="estado rechazada"
+                            th:text="${solicitud.estado}">RECHAZADA</em>
+                    </p>
+                    <p>Motivo: <span th:text="${solicitud.motivo}"></span></p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</main>
+
+</body>
+</html>
