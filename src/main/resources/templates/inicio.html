@@ -8,13 +8,13 @@
 <body>
 
 <nav style="display: flex; justify-content: space-between; align-items: center;">
-    <!-- Enlaces -->
+
     <ul id="nav-links" style="display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0;">
         <li><a th:href="@{/}">Inicio</a></li>
         <li><a th:href="@{/about}">Sobre Nosotros</a></li>
         <li><a th:href="@{/web/animales/registrar}">Registrar Animal</a></li>
 
-        <!-- Cuenta -->
+
         <li class="dropdown relative">
             <button id="cuenta-btn" class="px-4 py-2 border rounded-lg hover:bg-blue-50">
                 Cuenta
@@ -24,7 +24,7 @@
             </button>
 
             <ul id="cuenta-menu" class="dropdown-menu hidden absolute mt-1 z-50">
-                <!-- No autenticado -->
+
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
                     <a th:href="@{/login}" class="block px-4 py-2 hover:bg-blue-50">Iniciar Sesión</a>
                 </li>
@@ -32,7 +32,7 @@
                     <a th:href="@{/registro}" class="block px-4 py-2 hover:bg-green-50">Registrarse</a>
                 </li>
 
-                <!-- Autenticado -->
+
                 <li th:if="${#authorization.expression('isAuthenticated()')}">
                     <a th:href="@{/web/animales/mis-animales}" class="block px-4 py-2 hover:bg-blue-50">Mis Animales</a>
                 </li>
@@ -47,7 +47,7 @@
         </li>
 
 
-        <!-- Filtros -->
+
         <li class="dropdown relative">
             <button id="filtros-btn" class="dropdown-trigger">Filtros ▼</button>
             <ul id="filtros-menu" class="dropdown-menu hidden absolute mt-1 z-50">
@@ -61,7 +61,7 @@
         </li>
     </ul>
 
-    <!-- Logo ahora a la derecha -->
+
     <a th:href="@{/}" class="logo">🐾 PawHope</a>
 </nav>
 
@@ -89,7 +89,7 @@
 </main>
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
+
     document.addEventListener('DOMContentLoaded', function() {
         // Menú principal
         const menuToggle = document.getElementById('menu-toggle');
@@ -102,7 +102,7 @@
             });
         }
 
-        // Dropdown de filtros
+        // dropdown de filtros
         const filtrosBtn = document.getElementById('filtros-btn');
         const filtrosMenu = document.getElementById('filtros-menu');
 
@@ -113,7 +113,7 @@
             });
         }
 
-        // Dropdown de cuenta
+        // dropdown de cuenta
         const cuentaBtn = document.getElementById('cuenta-btn');
         const cuentaMenu = document.getElementById('cuenta-menu');
 
@@ -125,7 +125,7 @@
         }
 
 
-        // Cerrar todos los dropdowns al hacer clic fuera
+        // cerrar todos los dropdowns al hacer clic fuera
         document.addEventListener('click', function(e) {
             if(!e.target.closest('.dropdown')) {
                 const dropdowns = document.querySelectorAll('.dropdown-menu');
@@ -139,7 +139,7 @@
             }
         });
     });
-    /*]]>*/
+
 </script>
 
 

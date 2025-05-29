@@ -46,19 +46,4 @@ public class GlobalExceptionHandler {
         return "redirect:/";
     }
 
-    /*@ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return "Error de validación: " + ex.getFieldError().getDefaultMessage();
-    } ESTE SOLO MUESTRA EL PRIMER ERROR ENCONTRADO*/
-
-   /* // 2. Manejo simplificado de errores de validación (nuevo)
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // Opcional: para APIs REST
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String handleValidationExceptions(MethodArgumentNotValidException ex, RedirectAttributes redirectAttrs) {
-        // Extrae solo el primer error para simplificar
-        FieldError error = ex.getFieldErrors().get(0);
-        redirectAttrs.addFlashAttribute("errorValidacion", error.getDefaultMessage());
-        return "redirect:/formulario"; // Ajusta la ruta según tu necesidad
-    }*/
 }

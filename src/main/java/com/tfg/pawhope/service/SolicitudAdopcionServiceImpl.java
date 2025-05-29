@@ -35,7 +35,6 @@ public class SolicitudAdopcionServiceImpl {
     }
 
     public void crearSolicitud(SolicitudAdopcionDTO dto, String correoUsuario) {
-        System.out.println("Crear solicitud para animalId: " + dto.getIdAnimal());
 
         Animal animal = animalRepository.findById(dto.getIdAnimal())
                 .orElseThrow(() -> new RuntimeException("Animal no encontrado"));

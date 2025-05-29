@@ -40,17 +40,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/", "/css/**", "/js/**",
                                 "/login", "/registro",
-                                "/web/animales",           // listado público
-                                "/animal/**",              // detalles público si quieres
+                                "/web/animales",
+                                "/animal/**",
                                 "/api/**", "/uploads/**"
                         ).permitAll()
-                        // Deja accesible el detalle animal solo si el id es numérico (o usa otro patrón)
-                        // Esto depende de cómo lo tengas configurado, si no, puedes requerir autenticación también aquí
-
-                        // Protege registrar
                         .requestMatchers("/web/animales/registrar").authenticated()
-
-                        // Para todo lo demás que no está declarado explícitamente, pide autenticación
                         .anyRequest().authenticated()
                 )
 

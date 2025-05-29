@@ -1,7 +1,6 @@
 package com.tfg.pawhope.service;
 
 import com.tfg.pawhope.dto.AnimalDTO;
-import com.tfg.pawhope.dto.UsuarioDTO;
 import com.tfg.pawhope.excepciones.AnimalNoExisteException;
 import com.tfg.pawhope.excepciones.UsuarioNoExisteException;
 import com.tfg.pawhope.mapper.AnimalMapper;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,7 +73,6 @@ public class AnimalServiceImpl implements AnimalService {
         dto.setIdAnimal(animalGuardado.getIdAnimal());
         dto.setIdUsuario(animalGuardado.getResponsable().getIdUsuario());
 
-        System.out.println("USUARIOOOOOOO" + animalGuardado.getResponsable().getIdUsuario());
         return animalDTO;
     }
 

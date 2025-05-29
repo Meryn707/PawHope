@@ -6,7 +6,6 @@ import com.tfg.pawhope.excepciones.AnimalNoExisteException;
 
 import com.tfg.pawhope.excepciones.UsuarioNoExisteException;
 import com.tfg.pawhope.model.Animal;
-import com.tfg.pawhope.model.Usuario;
 import com.tfg.pawhope.service.AnimalServiceImpl;
 import com.tfg.pawhope.service.UsuarioServiceImpl;
 import org.springframework.security.core.Authentication;
