@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Inicio - PawHope</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+    <link rel="stylesheet" th:href="@{/css/inicio.css}" />
 </head>
 <body>
 
@@ -16,32 +16,24 @@
 
 
         <li class="dropdown relative">
-            <button id="cuenta-btn" class="px-4 py-2 border rounded-lg hover:bg-blue-50">
-                Cuenta
-                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </button>
-
-            <ul id="cuenta-menu" class="dropdown-menu hidden absolute mt-1 z-50">
-
+            <button id="cuenta-btn" class="dropdown-trigger">Cuenta ▼</button>
+            <ul id="cuenta-menu" class="dropdown-menu">
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a th:href="@{/login}" class="block px-4 py-2 hover:bg-blue-50">Iniciar Sesión</a>
+                    <a th:href="@{/login}">Iniciar Sesión</a>
                 </li>
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a th:href="@{/registro}" class="block px-4 py-2 hover:bg-green-50">Registrarse</a>
-                </li>
-
-
-                <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a th:href="@{/web/animales/mis-animales}" class="block px-4 py-2 hover:bg-blue-50">Mis Animales</a>
-                </li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a th:href="@{/web/usuarios/notificaciones}" class="block px-4 py-2 hover:bg-blue-50">Notificaciones</a>
+                    <a th:href="@{/registro}">Registrarse</a>
                 </li>
 
                 <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a th:href="@{/logout}" class="block px-4 py-2 text-red-600 hover:bg-red-50">Cerrar Sesión</a>
+                    <a th:href="@{/web/animales/mis-animales}">Mis Animales</a>
+                </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a th:href="@{/web/usuarios/notificaciones}">Notificaciones</a>
+                </li>
+
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a th:href="@{/logout}">Cerrar Sesión</a>
                 </li>
             </ul>
         </li>
@@ -50,13 +42,17 @@
 
         <li class="dropdown relative">
             <button id="filtros-btn" class="dropdown-trigger">Filtros ▼</button>
-            <ul id="filtros-menu" class="dropdown-menu hidden absolute mt-1 z-50">
+            <ul id="filtros-menu" class="dropdown-menu">
                 <li class="filter-category">Especie</li>
-                <li><a th:href="@{/web/animales/(especie='Gato')}">🐱 Felinos</a></li>
-                <li><a th:href="@{/web/animales/(especie='Perro')}">🐶 Caninos</a></li>
+                <li><a th:href="@{'/web/animales/?especie=Perro'}">Perros</a></li>
+                <li><a th:href="@{'/web/animales/?especie=Gato'}">Gatos</a></li>
+                <li><a th:href="@{'/web/animales/?especie=Conejo'}">Conejos</a></li>
+                <li><a th:href="@{'/web/animales/?especie=Pájaro'}">Pájaros</a></li>
                 <li class="filter-category">Edad</li>
-                <li><a th:href="@{/web/animales/(edad=1)}">1 año</a></li>
-                <li><a th:href="@{/web/animales/(edad=2)}">2 años</a></li>
+                <li><a th:href="@{'/web/animales/?rangoEdad=Cachorro'}">Cachorro (0 años)</a></li>
+                <li><a th:href="@{'/web/animales/?rangoEdad=Joven'}">Joven (1 - 5 años)</a></li>
+                <li><a th:href="@{'/web/animales/?rangoEdad=Adulto'}">Adulto (5 - 10 años)</a></li>
+                <li><a th:href="@{'/web/animales/?rangoEdad=Senior'}">Senior (10+ años)</a></li>
             </ul>
         </li>
     </ul>
@@ -91,16 +87,6 @@
 <script th:inline="javascript">
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Menú principal
-        const menuToggle = document.getElementById('menu-toggle');
-        const navLinks = document.getElementById('nav-links');
-
-        if(menuToggle && navLinks) {
-            menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                navLinks.classList.toggle('active');
-            });
-        }
 
         // dropdown de filtros
         const filtrosBtn = document.getElementById('filtros-btn');
@@ -132,16 +118,11 @@
                 dropdowns.forEach(menu => {
                     menu.classList.remove('show');
                 });
-
-                if(navLinks) {
-                    navLinks.classList.remove('active');
-                }
             }
         });
     });
 
 </script>
-
 
 </body>
 </html>

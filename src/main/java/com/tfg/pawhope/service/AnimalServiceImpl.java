@@ -66,6 +66,7 @@ public class AnimalServiceImpl implements AnimalService {
 
         animal.setImagenUrl(animalDTO.getImagenUrl());
         animal.setResponsable(usuario.get());
+        animal.setRangoEdad(calcularRangoEdad(animalDTO.getAnios()));
 
         Animal animalGuardado = animalRepository.save(animal);
 
@@ -76,17 +77,35 @@ public class AnimalServiceImpl implements AnimalService {
         return animalDTO;
     }
 
-    public List<Animal> filtrarAnimales(String especie, Integer edad) {
-        if (StringUtils.hasText(especie) && edad != null) {
-            return animalRepository.findByEspecieAndEdad(especie, edad);
-        } else if (StringUtils.hasText(especie)) {
+    public String calcularRangoEdad (Integer anios) {
+        if (anios < 1) return "Cachorro";
+        else if (anios <= 5) return "Joven";
+        else if (anios <= 10) return "Adulto";
+        else return "Senior";
+    }
+
+    public List<Animal> filtrarPorEspecie(String especie) {
+        if (StringUtils.hasText(especie)) {
             return animalRepository.findByEspecie(especie);
-        } else if (edad != null) {
-            return animalRepository.findByEdad(edad);
+        }
+        return animalRepository.findAll();
+    }
+
+    public List<Animal> filtrarPorEdad(Integer anios, Integer meses) {
+        boolean hayAnios = anios != null;
+        boolean hayMeses = meses != null;
+
+        if (hayAnios && hayMeses) {
+            return animalRepository.findByAniosAndMeses(anios, meses);
+        } else if (hayAnios) {
+            return animalRepository.findByAnios(anios);
+        } else if (hayMeses) {
+            return animalRepository.findByMeses(meses);
         } else {
             return animalRepository.findAll();
         }
     }
+
 
     public List<Animal> findByResponsable_IdUsuario(Long responsableIdUsuario) {
         return animalRepository.findByResponsable_IdUsuario(responsableIdUsuario);

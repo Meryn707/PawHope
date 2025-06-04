@@ -29,7 +29,10 @@ public class AnimalDTO {
 
     @Min(value = 0, message = "La edad no puede ser negativa")
     @Max(value = 50, message = "La edad máxima permitida es 50 años")
-    private int edad;
+    private int anios;
+
+    private String rangoEdad;
+    private int meses;
 
     @NotNull
     @Size(min = 10, max = 1000)

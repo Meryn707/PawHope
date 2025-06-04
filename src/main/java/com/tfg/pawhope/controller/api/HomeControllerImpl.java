@@ -24,7 +24,7 @@ public class HomeControllerImpl {
 
     @GetMapping("/home")
     public String home() {
-        return "inicio";  // Thymeleaf carga home.html
+        return "inicio";  // Thymeleaf carga inicio.html
     }
 
     @GetMapping("/registro")

@@ -12,9 +12,11 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
 
     List<Animal> findByEspecie(String especie);
 
-    List<Animal> findByEdad(Integer edad);
+    List<Animal> findByAniosAndMeses(Integer anios, Integer meses);
 
-    List<Animal> findByEspecieAndEdad(String especie, Integer edad);
+    List<Animal> findByAnios(Integer anios);
+
+    List<Animal> findByMeses(Integer meses);
 
     List<Animal> findByResponsable_IdUsuario(Long responsableIdUsuario);
 }

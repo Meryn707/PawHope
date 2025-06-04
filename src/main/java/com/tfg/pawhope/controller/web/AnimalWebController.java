@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,18 +118,34 @@ public class AnimalWebController {
     @GetMapping("/")
     public String listarAnimales(
             @RequestParam(required = false) String especie,
-            @RequestParam(required = false) Integer edad,
+            @RequestParam(required = false) String edad,
             Model model) {
 
-        System.out.println("Filtro especie: " + especie);
-        System.out.println("Filtro edad: " + edad);
+        List<AnimalDTO> animales = animalServiceImpl.findAll();
 
-        var animalesFiltrados = animalServiceImpl.filtrarAnimales(especie, edad);
-        model.addAttribute("animales", animalesFiltrados);
+        if (especie != null) {
+            animales.removeIf(a -> !a.getEspecie().equalsIgnoreCase(especie));
+        }
 
+        if (edad != null) {
+            switch (edad) {
+                case "cachorro": // 0 años
+                    animales.removeIf(a -> a.getAnios() != 0);
+                    break;
+                case "joven": // 1-4 años
+                    animales.removeIf(a -> a.getAnios() < 1 || a.getAnios() > 4);
+                    break;
+                case "adulto": // 5-9 años
+                    animales.removeIf(a -> a.getAnios() < 5 || a.getAnios() > 9);
+                    break;
+                case "senior": // 10+ años
+                    animales.removeIf(a -> a.getAnios() < 10);
+                    break;
+            }
+        }
+        model.addAttribute("animales", animales);
         return "inicio";
     }
-
 
     //ugardamos el archivo en uploads
     private String guardarArchivo(MultipartFile archivo) throws IOException {

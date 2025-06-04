@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title th:text="|${animal.nombre} - PawHope|">Detalle Animal</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+    <link rel="stylesheet" th:href="@{/css/mi_animal.css}" />
 </head>
 <body>
 
@@ -33,7 +33,10 @@
 
             <p><strong>Especie:</strong> <span th:text="${animal.especie}">Especie</span></p>
             <p><strong>Raza:</strong> <span th:text="${animal.raza}">Raza</span></p>
-            <p><strong>Edad:</strong> <span th:text="${animal.edad}">Edad</span></p>
+            <p><strong>Edad:</strong>
+                <span th:text="${animal.años}">Años</span>
+                <span th:text="${animal.años}">Meses</span>
+            </p>
         </div>
     </div>
 

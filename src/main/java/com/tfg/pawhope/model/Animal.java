@@ -34,7 +34,11 @@ public class Animal {
     @Min(value = 0, message = "La edad no puede ser negativa")
     @Max(value = 50, message = "La edad no puede ser mayor a 50")
     @Column(nullable = false)
-    private int edad;
+    private int anios;
+    @Column(nullable = false)
+    private int meses;
+
+    private String rangoEdad;
 
     @NotBlank(message = "La descripción es obligatoria")
     @Size(max = 1000, message = "La descripción no puede exceder 1000 caracteres")

@@ -3,36 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - PawHope</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+    <link rel="stylesheet" th:href="@{/css/registro-login.css}" />
     <style>
         .error { color: red; }
         .success { color: green; }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <h2>Iniciar sesión</h2>
-    <form th:action="@{/perform_login}" method="post"> <!--URL especial gestionada por Spring Security-->
-        <div>
-            <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required/>
-        </div>
-        <div>
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" required/>
-        </div>
-        <button type="submit">Entrar</button>
+<main class="login-container">
+    <form th:action="@{/perform_login}" method="post" class="formulario">
+        <h2>Iniciar sesión</h2>
 
-        <!--mensajes-->
-        <div th:if="${param.error}" class="error">
-            Credenciales incorrectas
-        </div>
-        <div th:if="${param.logout}" class="success">
-            Has cerrado sesión correctamente
-        </div>
+        <label for="correo">Correo:</label>
+        <input type="text" id="correo" name="correo" required />
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required />
+
+        <button type="submit" class="btn">Entrar</button>
+
+        <div th:if="${param.error}" class="error">Credenciales incorrectas</div>
+        <div th:if="${param.logout}" class="success">Has cerrado sesión correctamente</div>
+
+        <button type="button" onclick="window.location.href='/pawhope/registro'" class="btn btn-secondary">Registrarse</button>
     </form>
-
-    <button type="button" onclick="window.location.href='/pawhope/registro'">Registrarse</button>
-</div>
+</main>
 </body>
+
 </html>

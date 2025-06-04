@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Publicar Animal</title>
-    <link rel="stylesheet" th:href="@{/css/formulario.css}" />
+    <link rel="stylesheet" th:href="@{/css/formulario-registrarAnimal.css}" />
 </head>
 <body>
 <nav>
@@ -17,8 +17,8 @@
         <label>Nombre:</label>
         <input type="text" th:field="*{nombre}" required />
 
-        <label>Edad:</label>
-        <input type="number" th:field="*{edad}" required />
+        <label>Años:</label> <input type="number" th:field="*{anios}" min="0" max="150" required />
+        <label>Meses:</label> <input type="number" th:field="*{meses}" min="0" max="12" required />
 
         <label>Raza:</label>
         <input type="text" th:field="*{raza}" required />
