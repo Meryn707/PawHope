@@ -16,7 +16,7 @@
     </ul>
 </nav>
 
-<main style="max-width: 900px; margin: 120px auto 40px; padding: 1rem;">
+<main>
     <h1>Detalles de la petición</h1>
 
     <div class="detalle-solicitud">
@@ -28,7 +28,7 @@
         <p th:text="${solicitud.motivo}">Motivo del solicitante</p>
     </div>
 
-    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+    <div>
         <form th:action="@{/web/solicitudes/estado/{id}(id=${solicitud.id})}" method="post">
             <input type="hidden" name="nuevoEstado" value="ACEPTADA" />
             <button type="submit" class="btn aceptar">Aceptar</button>

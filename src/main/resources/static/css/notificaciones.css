@@ -125,17 +125,6 @@ main div ul li:hover {
     color: #6b7280;
 }
 
-
-@media (max-width: 600px) {
-    ul li {
-        padding: 1rem 1rem;
-    }
-
-    .card-link p {
-        font-size: 1rem;
-    }
-}
-
 .estado {
     font-weight: bold;
     padding: 0.2rem 0.5rem;

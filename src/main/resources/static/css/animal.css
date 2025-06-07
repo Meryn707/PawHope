@@ -161,10 +161,7 @@ main.animal-detail {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(147, 51, 234, 0.29);
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-    .animal-header {
-        grid-template-columns: 1fr;
-    }
+p {
+    margin-bottom: 1em;
 }
+

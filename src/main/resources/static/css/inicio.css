@@ -198,27 +198,3 @@ nav ul#nav-links li a:hover {
     padding-left: 0.5rem;
 }
 
-/* Responsive básico para nav menú y dropdown */
-@media (max-width: 768px) {
-    nav ul#nav-links {
-        flex-direction: column;
-        position: fixed;
-        top: 65px;
-        right: -100%;
-        background: white;
-        width: 60%;
-        height: 100vh;
-        padding: 2rem;
-        gap: 1.5rem;
-        transition: right 0.3s ease;
-        box-shadow: -8px 0 20px rgba(147, 51, 234, 0.1);
-    }
-
-    nav ul#nav-links.active {
-        right: 0;
-    }
-
-    .dropdown-menu {
-        right: 0;
-    }
-}

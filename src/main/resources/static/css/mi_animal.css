@@ -130,3 +130,7 @@ main.animal-detail {
     border: none;
     cursor: pointer;
 }
+
+p {
+    margin-bottom: 1em;
+}

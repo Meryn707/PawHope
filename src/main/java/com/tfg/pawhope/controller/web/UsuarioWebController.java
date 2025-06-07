@@ -31,9 +31,11 @@ public class UsuarioWebController {
         this.solicitudAdopcionServiceImpl = solicitudAdopcionServiceImpl;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping
     public String registrarUsuario(@ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes ra) {
+        System.out.println("TRY ZORRA");
         try {
+            System.out.println("USANDO EL SERVICE ASQUEROSO");
             usuarioServiceImpl.registrarUsuario(usuarioDTO);
             return "redirect:/login";
         } catch (UsuarioYaExisteException e) {

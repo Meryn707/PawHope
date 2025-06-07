@@ -461,14 +461,4 @@ select:focus {
         color: #7e22ce;
     }
 
-    /* Para pantallas pequeñas */
-    @media (max-width: 768px) {
-        #filtros-menu {
-            width: 90vw;
-            max-width: 300px;
-            right: 1rem;
-            left: auto;
-        }
-    }
-
 }

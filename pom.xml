@@ -41,6 +41,11 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
+        <dependency><!--Necesario para que flyway funcione correctamente-->
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -130,6 +135,7 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
+                    <include>**/*.sql</include>
                     <include>**/*.html</include>
                     <include>static/**</include>
                     <include>**/*.properties</include>

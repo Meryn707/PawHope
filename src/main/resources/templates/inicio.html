@@ -43,6 +43,8 @@
         <li class="dropdown relative">
             <button id="filtros-btn" class="dropdown-trigger">Filtros ▼</button>
             <ul id="filtros-menu" class="dropdown-menu">
+                <li><a th:href="@{'/web/animales/?especie=Perro'}">TODOS</a></li>
+
                 <li class="filter-category">Especie</li>
                 <li><a th:href="@{'/web/animales/?especie=Perro'}">Perros</a></li>
                 <li><a th:href="@{'/web/animales/?especie=Gato'}">Gatos</a></li>

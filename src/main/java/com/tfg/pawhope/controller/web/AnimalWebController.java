@@ -129,16 +129,16 @@ public class AnimalWebController {
 
         if (edad != null) {
             switch (edad) {
-                case "cachorro": // 0 años
+                case "Cachorro": // 0 años
                     animales.removeIf(a -> a.getAnios() != 0);
                     break;
-                case "joven": // 1-4 años
+                case "Joven": // 1-4 años
                     animales.removeIf(a -> a.getAnios() < 1 || a.getAnios() > 4);
                     break;
-                case "adulto": // 5-9 años
+                case "Adulto": // 5-9 años
                     animales.removeIf(a -> a.getAnios() < 5 || a.getAnios() > 9);
                     break;
-                case "senior": // 10+ años
+                case "Senior": // 10+ años
                     animales.removeIf(a -> a.getAnios() < 10);
                     break;
             }

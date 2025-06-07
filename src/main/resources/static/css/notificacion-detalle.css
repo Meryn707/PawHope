@@ -106,21 +106,6 @@ main h1 {
 }
 
 
-@media (max-width: 600px) {
-    main {
-        margin: 100px 1rem 30px;
-        padding: 1rem;
-    }
-
-    main h1 {
-        font-size: 1.8rem;
-    }
-
-    .detalle-solicitud p {
-        font-size: 1rem;
-    }
-}
-
 .btn.aceptar {
     background: #34d399;
 }
