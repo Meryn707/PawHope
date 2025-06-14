@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sobre Nosotros - PawHope</title>
+    <link rel="stylesheet" th:href="@{/css/inicio.css}" />
+</head>
+<body>
+
+<nav style="display: flex; justify-content: space-between; align-items: center;">
+    <ul id="nav-links" style="display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0;">
+        <li><a th:href="@{/}">Inicio</a></li>
+        <li><a th:href="@{/about}" class="active">Sobre Nosotros</a></li>
+        <li><a th:href="@{/web/animales/registrar}">Registrar Animal</a></li>
+        <!-- Aquí seguiría el dropdown cuenta y filtros igual que en el inicio -->
+    </ul>
+
+    <a th:href="@{/}" class="logo">🐾 PawHope</a>
+</nav>
+
+<main style="max-width: 800px; margin: 140px auto 3rem; padding: 1rem;">
+    <header style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; background: linear-gradient(to right, #9333ea, #ec4899); -webkit-background-clip: text; color: transparent; font-weight: 800;">
+            Sobre Nosotros
+        </h1>
+        <p style="font-size: 1.2rem; color: #4b5563;">
+            En <strong>PawHope</strong> tenemos un propósito claro: ayudar a los animales sin hogar.
+            Nuestra plataforma está diseñada para conectar a personas con un gran corazón que desean brindarles una familia y una nueva oportunidad de vida.
+        </p>
+    </header>
+
+    <section style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.06); line-height: 1.6; color: #333;">
+        <p>
+            Entendemos las dificultades que enfrentan tanto los animales abandonados como quienes quieren ayudarles, por eso creamos un espacio sencillo y amigable que facilita la búsqueda de un hogar para cada peludo.
+        </p>
+        <p>
+            Nuestro compromiso es hacer la vida más fácil a todas las personas que, con cariño y dedicación, quieren cambiar la historia de estos animales. Desde la adopción hasta la comunicación entre futuros adoptantes y refugios, PawHope acompaña cada paso del camino.
+        </p>
+        <p>
+            ¡Únete a nuestra comunidad y ayúdanos a hacer que más animales encuentren un hogar lleno de amor!
+        </p>
+    </section>
+</main>
+
+</body>
+</html>

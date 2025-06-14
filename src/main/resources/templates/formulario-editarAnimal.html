@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8" />
-    <title>Publicar Animal</title>
+    <title>Editar Animal</title>
     <link rel="stylesheet" th:href="@{/css/formulario-registrarAnimal.css}" />
 </head>
 <body>
@@ -11,18 +11,26 @@
 </nav>
 
 <main class="formulario-adopcion" style="max-width: 640px; margin: 3rem auto; padding: 2rem 1.5rem;">
-    <h2>Publicar nuevo animal</h2>
+    <h2>Editar Animal</h2>
 
-    <form th:action="@{/web/animales/registrar}" method="post" th:object="${animal}" enctype="multipart/form-data" class="formulario">
+    <form th:action="@{/web/animales/editar/{id}(id=${animal.idAnimal})}"
+          method="post"
+          th:object="${animal}"
+          enctype="multipart/form-data"
+          class="formulario">
+
         <label>Nombre:</label>
         <input type="text" th:field="*{nombre}" required
                pattern=".*\S+.*" title="El nombre no puede contener solo espacios" />
 
-        <label>Años:</label> <input type="number" th:field="*{anios}" min="0" max="150" required />
-        <label>Meses:</label> <input type="number" th:field="*{meses}" min="0" max="12" required />
+        <label>Años:</label>
+        <input type="number" th:field="*{anios}" min="0" max="150" required />
+
+        <label>Meses:</label>
+        <input type="number" th:field="*{meses}" min="0" max="12" required />
 
         <label>Raza:</label>
-        <input type="text" th:field="*{raza}" min="0" max="1000" required
+        <input type="text" th:field="*{raza}" required
                pattern=".*\S+.*" title="La raza no puede contener solo espacios"/>
 
         <label>Descripción:</label>
@@ -37,14 +45,20 @@
             <option value="Conejo">Conejo</option>
         </select>
 
-        <label>Imagen:</label>
-        <input type="file" name="imagen" accept="image/*" required />
+        <!-- Mostrar imagen actual -->
+        <div th:if="${animal.imagenUrl != null}">
+            <p>Imagen actual:</p>
+            <img th:src="@{${animal.imagenUrl}}" alt="Imagen actual"
+                 style="max-width: 300px; max-height: 300px;" />
+        </div>
 
-        <button type="submit" class="btn">Publicar</button>
+        <label>Nueva imagen (opcional):</label>
+        <input type="file" name="imagen" accept="image/*" />
+
+        <button type="submit" class="btn">Actualizar</button>
     </form>
 
-    <a th:href="@{/}">Volver</a>
+    <a th:href="@{/web/animales/mis-animales}">Volver</a>
 </main>
-
 </body>
 </html>

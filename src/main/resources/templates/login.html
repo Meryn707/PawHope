@@ -10,6 +10,17 @@
     </style>
 </head>
 <body>
+
+<nav style="display: flex; justify-content: space-between; align-items: center;">
+
+    <ul id="nav-links" style="display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0;">
+        <li><a th:href="@{/}">Inicio</a></li>
+        <li><a th:href="@{/about}">Sobre Nosotros</a></li>
+    </ul>
+
+    <a th:href="@{/}" class="logo">🐾 PawHope</a>
+</nav>
+
 <main class="login-container">
     <form th:action="@{/perform_login}" method="post" class="formulario">
         <h2>Iniciar sesión</h2>

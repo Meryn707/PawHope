@@ -118,31 +118,19 @@ public class AnimalWebController {
     @GetMapping("/")
     public String listarAnimales(
             @RequestParam(required = false) String especie,
-            @RequestParam(required = false) String edad,
+            @RequestParam(required = false) String rangoEdad,
             Model model) {
 
         List<AnimalDTO> animales = animalServiceImpl.findAll();
 
         if (especie != null) {
-            animales.removeIf(a -> !a.getEspecie().equalsIgnoreCase(especie));
+            animales.removeIf(a -> !a.getEspecie().equalsIgnoreCase(especie)); //si la especie no coincide
         }
 
-        if (edad != null) {
-            switch (edad) {
-                case "Cachorro": // 0 años
-                    animales.removeIf(a -> a.getAnios() != 0);
-                    break;
-                case "Joven": // 1-4 años
-                    animales.removeIf(a -> a.getAnios() < 1 || a.getAnios() > 4);
-                    break;
-                case "Adulto": // 5-9 años
-                    animales.removeIf(a -> a.getAnios() < 5 || a.getAnios() > 9);
-                    break;
-                case "Senior": // 10+ años
-                    animales.removeIf(a -> a.getAnios() < 10);
-                    break;
-            }
+        if (rangoEdad != null) {
+            animales.removeIf(animal -> !animal.getRangoEdad().equalsIgnoreCase(rangoEdad));
         }
+
         model.addAttribute("animales", animales);
         return "inicio";
     }
@@ -203,5 +191,52 @@ public class AnimalWebController {
     }
 
 
+    @PostMapping("/editar/{id}")
+    public String editarAnimal(@PathVariable Long id,
+                               @ModelAttribute AnimalDTO animalDTO,
+                               Authentication auth,
+                               RedirectAttributes ra) {
+        try {
+            String correo = auth.getName();
+            Optional<UsuarioDTO> usuario = usuarioServiceImpl.findByCorreo(correo);
+
+            if (usuario.isEmpty()) {
+                ra.addFlashAttribute("error", "Usuario no encontrado");
+                return "redirect:/";
+            }
+
+            animalDTO.setIdAnimal(id);
+            animalDTO.setIdUsuario(usuario.get().getIdUsuario());
+
+            MultipartFile imagen = animalDTO.getImagen();
+            if (imagen != null && !imagen.isEmpty()) {
+                String nombreArchivo = guardarArchivo(imagen);
+                animalDTO.setImagenUrl(nombreArchivo);
+            }
+
+            animalServiceImpl.actualizarAnimal(animalDTO);
+            ra.addFlashAttribute("exito", "Animal actualizado correctamente");
+            return "redirect:/web/animales/miAnimal/" + id;
+
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Error al actualizar el animal: " + e.getMessage());
+            return "redirect:/web/animales/editar/" + id;
+        }
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model, Authentication auth, RedirectAttributes ra) {
+
+        try {
+
+            AnimalDTO animal = animalServiceImpl.findByIdAnimal(id);
+            model.addAttribute("animal", animal);
+            return "formulario-editarAnimal";
+
+        } catch (AnimalNoExisteException e) {
+            ra.addFlashAttribute("error", "Animal no encontrado");
+            return "redirect:/web/animales/mis-animales";
+        }
+    }
 
 }

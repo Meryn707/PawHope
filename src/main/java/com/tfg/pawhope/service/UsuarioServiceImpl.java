@@ -34,9 +34,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario registrarUsuario(UsuarioDTO usuarioDTO) {
 
         Optional <Usuario> usuarioOptional = usuarioRepository.findByCorreo(usuarioDTO.getCorreo());
-        System.out.println("BUSCANDO EL PUTO USUAIRO");
+
         if (usuarioOptional.isPresent()) {
-            System.out.println("EL CORREO ES MIERDA");
+
             throw new UsuarioYaExisteException("El correo ya está registrado");
         }
 
@@ -45,7 +45,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         System.out.println("Usuario a guardar: " + usuario);
 
-        System.out.println("EL USUARIO SE ESTA PUTO GUARDANDO");
         return usuarioRepository.save(usuario);
     }
 

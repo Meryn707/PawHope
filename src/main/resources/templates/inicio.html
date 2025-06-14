@@ -43,7 +43,7 @@
         <li class="dropdown relative">
             <button id="filtros-btn" class="dropdown-trigger">Filtros ▼</button>
             <ul id="filtros-menu" class="dropdown-menu">
-                <li><a th:href="@{'/web/animales/?especie=Perro'}">TODOS</a></li>
+                <li><a th:href="@{'/web/animales/'}">TODOS</a></li>
 
                 <li class="filter-category">Especie</li>
                 <li><a th:href="@{'/web/animales/?especie=Perro'}">Perros</a></li>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="card-content">
                     <h2 th:text="${animal.nombre}"></h2>
-                    <p class="card-desc" th:text="${#strings.abbreviate(animal.descripcion, 100)} + '...'"></p>
+                    <p class="card-desc" th:text="${#strings.abbreviate(animal.descripcion, 20)} + '...'"></p>
                     <button class="detail-button">Ver detalles</button>
                 </div>
             </a>

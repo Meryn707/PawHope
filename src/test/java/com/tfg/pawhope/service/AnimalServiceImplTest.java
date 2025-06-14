@@ -151,7 +151,6 @@ public class AnimalServiceImplTest {
     void deleteAnimal_animalNoExiste_lanzaExcepcion() {
         AnimalDTO dto = new AnimalDTO();
         dto.setIdAnimal(1L);
-
         when(animalRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> animalService.deleteAnimal(dto));

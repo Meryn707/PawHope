@@ -74,7 +74,7 @@ public class AnimalServiceImpl implements AnimalService {
         dto.setIdAnimal(animalGuardado.getIdAnimal());
         dto.setIdUsuario(animalGuardado.getResponsable().getIdUsuario());
 
-        return animalDTO;
+        return dto;
     }
 
     public String calcularRangoEdad (Integer anios) {
@@ -124,4 +124,37 @@ public class AnimalServiceImpl implements AnimalService {
 
         animalRepository.delete(animal);
     }
+
+    public AnimalDTO actualizarAnimal(AnimalDTO animalDTO) {
+
+        if (animalDTO.getIdAnimal() == null) {
+            throw new IllegalArgumentException("ID del animal requerido para la actualización");
+        }
+
+        Animal animalExistente = animalRepository.findById(animalDTO.getIdAnimal())
+                .orElseThrow(() -> new AnimalNoExisteException("Animal no encontrado"));
+
+        // Solo actualizamos los campos editables
+        animalExistente.setNombre(animalDTO.getNombre());
+        animalExistente.setEspecie(animalDTO.getEspecie());
+        animalExistente.setRaza(animalDTO.getRaza());
+        animalExistente.setAnios(animalDTO.getAnios());
+        animalExistente.setMeses(animalDTO.getMeses());
+        animalExistente.setDescripcion(animalDTO.getDescripcion());
+
+        if (animalDTO.getImagenUrl() != null) {
+            animalExistente.setImagenUrl(animalDTO.getImagenUrl()); // si no se sube nueva imagen, se queda la actual
+        }
+
+        animalExistente.setRangoEdad(calcularRangoEdad(animalDTO.getAnios()));
+
+        Animal actualizado = animalRepository.save(animalExistente);
+
+        AnimalDTO dto = animalToDto(actualizado);
+        dto.setIdUsuario(actualizado.getResponsable().getIdUsuario());
+        dto.setIdAnimal(actualizado.getIdAnimal());
+
+        return dto;
+    }
+
 }

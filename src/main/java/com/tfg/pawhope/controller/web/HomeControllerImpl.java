@@ -1,4 +1,4 @@
-package com.tfg.pawhope.controller.api;
+package com.tfg.pawhope.controller.web;
 
 import com.tfg.pawhope.dto.AnimalDTO;
 import com.tfg.pawhope.service.AnimalService;
@@ -30,6 +30,11 @@ public class HomeControllerImpl {
     @GetMapping("/registro")
     public String mostrarFormularioRegistro() {
         return "registro";
+    }
+
+    @GetMapping("/about")
+    public String sobreNosotros() {
+        return "sobreNosotros";
     }
 
     @GetMapping("/") // Muestra la página principal directamente
