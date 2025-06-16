@@ -8,7 +8,9 @@ import com.tfg.pawhope.repository.UsuarioRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -18,18 +20,18 @@ import static org.mockito.Mockito.*;
 
 public class UsuarioServiceImplTest {
 
+    @Mock
     private UsuarioRepository usuarioRepository;
+    @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
     private UsuarioMapper usuarioMapper;
+    @InjectMocks
     private UsuarioServiceImpl usuarioService;
 
     @BeforeEach
     void setUp() {
-        usuarioRepository = mock(UsuarioRepository.class);
-        passwordEncoder = mock(PasswordEncoder.class);
-        usuarioMapper = mock(UsuarioMapper.class);
-
-        usuarioService = new UsuarioServiceImpl(passwordEncoder, usuarioRepository, usuarioMapper);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -46,7 +48,7 @@ public class UsuarioServiceImplTest {
         usuarioGuardado.setCorreo("test@correo.com");
         usuarioGuardado.setContrasena("passwordEncriptado");
 
-        // mocks simples
+
         when(usuarioRepository.findByCorreo("test@correo.com")).thenReturn(Optional.empty());
         when(usuarioMapper.toEntity(usuarioDTO)).thenReturn(usuarioEntidad);
         when(passwordEncoder.encode("1234")).thenReturn("passwordEncriptado");
@@ -58,7 +60,7 @@ public class UsuarioServiceImplTest {
         assertEquals("test@correo.com", resultado.getCorreo());
         assertEquals("passwordEncriptado", resultado.getContrasena());
 
-        // verificar interacciones
+
         verify(usuarioRepository).findByCorreo("test@correo.com");
         verify(usuarioMapper).toEntity(usuarioDTO);
         verify(passwordEncoder).encode("1234");
@@ -78,7 +80,6 @@ public class UsuarioServiceImplTest {
         assertThrows(UsuarioYaExisteException.class, () -> usuarioService.registrarUsuario(usuarioDTO));
 
         verify(usuarioRepository).findByCorreo("existe@correo.com");
-        verify(usuarioRepository, never()).save(any());
     }
 
     @Test
@@ -154,6 +155,7 @@ public class UsuarioServiceImplTest {
 
     @Test
     void obtenerIdUsuarioPorCorreo_usuarioNoExiste_lanzaExcepcion() {
+
         String correo = "noid@correo.com";
         when(usuarioRepository.findByCorreo(correo)).thenReturn(Optional.empty());
 

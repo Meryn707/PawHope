@@ -84,27 +84,6 @@ public class AnimalServiceImpl implements AnimalService {
         else return "Senior";
     }
 
-    public List<Animal> filtrarPorEspecie(String especie) {
-        if (StringUtils.hasText(especie)) {
-            return animalRepository.findByEspecie(especie);
-        }
-        return animalRepository.findAll();
-    }
-
-    public List<Animal> filtrarPorEdad(Integer anios, Integer meses) {
-        boolean hayAnios = anios != null;
-        boolean hayMeses = meses != null;
-
-        if (hayAnios && hayMeses) {
-            return animalRepository.findByAniosAndMeses(anios, meses);
-        } else if (hayAnios) {
-            return animalRepository.findByAnios(anios);
-        } else if (hayMeses) {
-            return animalRepository.findByMeses(meses);
-        } else {
-            return animalRepository.findAll();
-        }
-    }
 
 
     public List<Animal> findByResponsable_IdUsuario(Long responsableIdUsuario) {

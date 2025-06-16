@@ -33,11 +33,12 @@ public class UsuarioWebController {
 
     @PostMapping
     public String registrarUsuario(@ModelAttribute UsuarioDTO usuarioDTO, RedirectAttributes ra) {
-        System.out.println("TRY ZORRA");
+
         try {
-            System.out.println("USANDO EL SERVICE ASQUEROSO");
+
             usuarioServiceImpl.registrarUsuario(usuarioDTO);
             return "redirect:/login";
+
         } catch (UsuarioYaExisteException e) {
             ra.addFlashAttribute("errorCorreoExistente", e.getMessage());
             return "redirect:/registro";

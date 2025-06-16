@@ -80,27 +80,26 @@ public class AnimalWebController {
 
     @PostMapping("/registrar")
     public String crearAnimal(@ModelAttribute AnimalDTO animalDTO,
-                              Authentication auth,
+                              Authentication auth, //la info del usuario registrado
                               RedirectAttributes ra) {
         try {
-            // Obtén el username o email desde auth
+            // obtenemos el usuario con auth
             String username = auth.getName();
 
-            // Consulta el usuario para obtener el idUsuario
             Optional <UsuarioDTO> usuario = usuarioServiceImpl.findByCorreo(username);
             if (usuario.isEmpty()) {
                 ra.addFlashAttribute("error", "Usuario no encontrado");
                 return "redirect:/web/animales/registrar";
             }
 
-            // Asigna el idUsuario al DTO antes de guardar
+            // asignamos el idUsuario al DTO antes de guardar
             animalDTO.setIdUsuario(usuario.get().getIdUsuario());
 
             MultipartFile imagen = animalDTO.getImagen();
             if (imagen != null && !imagen.isEmpty()) {
                 String nombreArchivo = guardarArchivo(imagen);
                 animalDTO.setImagenUrl(nombreArchivo);
-                animalDTO.setImagen(null);
+                animalDTO.setImagen(null); //ya no nos hace falta, lo borramos
             } else {
                 ra.addFlashAttribute("error", "La imagen es obligatoria.");
                 return "redirect:/web/animales/registrar";
@@ -137,10 +136,12 @@ public class AnimalWebController {
 
     //ugardamos el archivo en uploads
     private String guardarArchivo(MultipartFile archivo) throws IOException {
+
         String nombreArchivo = System.currentTimeMillis() + "-" + archivo.getOriginalFilename();
 
-        Path rutaCarpeta = Paths.get("uploads");
-        if (!Files.exists(rutaCarpeta)) {
+        Path rutaCarpeta = Paths.get("uploads"); //definimos la ruta de la carpeta donde se guardará la img
+
+        if (!Files.exists(rutaCarpeta)) { //si no existe la creamos (pero sí que existe)
             Files.createDirectories(rutaCarpeta);
         }
 

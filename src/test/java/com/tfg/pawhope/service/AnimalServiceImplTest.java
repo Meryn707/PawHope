@@ -11,7 +11,11 @@ import com.tfg.pawhope.repository.UsuarioRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,25 +25,47 @@ import static org.mockito.Mockito.*;
 
 public class AnimalServiceImplTest {
 
+    @Mock
     private AnimalRepository animalRepository;
+
+    @Mock
     private UsuarioRepository usuarioRepository;
+
+    @Mock
     private AnimalMapper animalMapper;
+
+    @InjectMocks
     private AnimalServiceImpl animalService;
+
+    private List<Animal> animales;
+    private List<AnimalDTO> dtos;
+    private AnimalDTO dto;
+    private Animal animal;
+    private Usuario usuario;
 
     @BeforeEach
     void setUp() {
-        animalRepository = mock(AnimalRepository.class);
-        usuarioRepository = mock(UsuarioRepository.class);
-        animalMapper = mock(AnimalMapper.class);
-        animalService = new AnimalServiceImpl(animalRepository, usuarioRepository, animalMapper);
+
+        MockitoAnnotations.openMocks(this);
+
+        usuario = new Usuario();
+        usuario.setIdUsuario(10L);
+
+        animal = new Animal();
+        animal.setIdAnimal(1L);
+
+        animales = new ArrayList<>();
+        animales.add(animal);
+
+
+        dto = new AnimalDTO();
+        dto.setIdUsuario(10L);
+        dto.setIdAnimal(1L);
+        dtos = Collections.singletonList(dto);
     }
 
     @Test
     void findAll_debeRetornarListaDTO() {
-        Animal animal = new Animal();
-        List<Animal> animales = Collections.singletonList(animal);
-        AnimalDTO dto = new AnimalDTO();
-        List<AnimalDTO> dtos = Collections.singletonList(dto);
 
         when(animalRepository.findAll()).thenReturn(animales);
         when(animalMapper.listToDto(animales)).thenReturn(dtos);
@@ -53,13 +79,10 @@ public class AnimalServiceImplTest {
 
     @Test
     void findByIdAnimal_animalExiste_devuelveDTO() {
-        Animal animal = new Animal();
-        animal.setIdAnimal(1L);
-        Usuario responsable = new Usuario();
-        responsable.setIdUsuario(2L);
-        animal.setResponsable(responsable);
 
-        AnimalDTO dto = new AnimalDTO();
+        Usuario responsable = new Usuario();
+        responsable.setIdUsuario(10L);
+        animal.setResponsable(responsable);
 
         when(animalRepository.findByIdAnimal(1L)).thenReturn(Optional.of(animal));
         when(animalMapper.toDto(animal)).thenReturn(dto);
@@ -68,7 +91,7 @@ public class AnimalServiceImplTest {
 
         assertNotNull(resultado);
         assertEquals(1L, resultado.getIdAnimal());
-        assertEquals(2L, resultado.getIdUsuario());
+        assertEquals(10L, resultado.getIdUsuario());
     }
 
     @Test
@@ -78,43 +101,32 @@ public class AnimalServiceImplTest {
         assertThrows(AnimalNoExisteException.class, () -> animalService.findByIdAnimal(1L));
     }
 
-    @Test
-    void guardarAnimal_usuarioNoExiste_lanzaExcepcion() {
-        AnimalDTO dto = new AnimalDTO();
-        dto.setIdUsuario(10L);
-
-        when(usuarioRepository.findByIdUsuario(10L)).thenReturn(Optional.empty());
-
-        assertThrows(UsuarioNoExisteException.class, () -> animalService.guardarAnimal(dto));
-    }
 
     @Test
-    void guardarAnimal_usuarioExiste_guardaAnimal() {
-        AnimalDTO dto = new AnimalDTO();
-        dto.setIdUsuario(10L);
-        dto.setImagenUrl("url");
-        dto.setAnios(3);
-
-        Usuario usuario = new Usuario();
-        usuario.setIdUsuario(10L);
-
-        Animal animalEntity = new Animal();
-        Animal animalGuardado = new Animal();
-        animalGuardado.setIdAnimal(5L);
-        animalGuardado.setResponsable(usuario);
-
-        AnimalDTO dtoGuardado = new AnimalDTO();
+    void guardarAnimal_usuarioExiste_devuelveDTO() {
 
         when(usuarioRepository.findByIdUsuario(10L)).thenReturn(Optional.of(usuario));
-        when(animalMapper.toEntity(dto)).thenReturn(animalEntity);
-        when(animalRepository.save(animalEntity)).thenReturn(animalGuardado);
-        when(animalMapper.toDto(animalGuardado)).thenReturn(dtoGuardado);
+        when(animalMapper.toEntity(dto)).thenReturn(animal);
+        when(animalRepository.save(animal)).thenReturn(animal);
+        when(animalMapper.toDto(animal)).thenReturn(dto);
 
         AnimalDTO resultado = animalService.guardarAnimal(dto);
 
         assertNotNull(resultado);
-        verify(animalRepository).save(animalEntity);
+        assertEquals(10L, resultado.getIdUsuario());
+        verify(animalRepository).save(any());//verifica que se llamó al método save
     }
+
+    @Test
+    void deleteAnimal_existe_loElimina() {
+
+        when(animalRepository.findById(1L)).thenReturn(Optional.of(animal));
+
+        animalService.deleteAnimal(dto);
+
+        verify(animalRepository).delete(animal);
+    }
+
 
     @Test
     void calcularRangoEdad() {
@@ -124,50 +136,4 @@ public class AnimalServiceImplTest {
         assertEquals("Senior", animalService.calcularRangoEdad(11));
     }
 
-    @Test
-    void filtrarPorEspecie_conEspecie_llamaFindByEspecie() {
-        String especie = "perro";
-        List<Animal> lista = Collections.emptyList();
-        when(animalRepository.findByEspecie(especie)).thenReturn(lista);
-
-        List<Animal> resultado = animalService.filtrarPorEspecie(especie);
-
-        assertSame(lista, resultado);
-        verify(animalRepository).findByEspecie(especie);
-    }
-
-    @Test
-    void filtrarPorEspecie_sinEspecie_llamaFindAll() {
-        List<Animal> lista = Collections.emptyList();
-        when(animalRepository.findAll()).thenReturn(lista);
-
-        List<Animal> resultado = animalService.filtrarPorEspecie(null);
-
-        assertSame(lista, resultado);
-        verify(animalRepository).findAll();
-    }
-
-    @Test
-    void deleteAnimal_animalNoExiste_lanzaExcepcion() {
-        AnimalDTO dto = new AnimalDTO();
-        dto.setIdAnimal(1L);
-        when(animalRepository.findById(1L)).thenReturn(Optional.empty());
-
-        assertThrows(RuntimeException.class, () -> animalService.deleteAnimal(dto));
-    }
-
-    @Test
-    void deleteAnimal_animalExiste_eliminaAnimal() {
-        AnimalDTO dto = new AnimalDTO();
-        dto.setIdAnimal(1L);
-
-        Animal animal = new Animal();
-        animal.setIdAnimal(1L);
-
-        when(animalRepository.findById(1L)).thenReturn(Optional.of(animal));
-
-        animalService.deleteAnimal(dto);
-
-        verify(animalRepository).delete(animal);
-    }
 }

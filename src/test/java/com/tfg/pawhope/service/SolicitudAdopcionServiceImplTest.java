@@ -37,19 +37,18 @@ class SolicitudAdopcionServiceImplTest {
     }
 
     @Test
-    void crearSolicitud_CreaCorrectamente() {
+    void crearSolicitud() {
 
         SolicitudAdopcionDTO dto = new SolicitudAdopcionDTO();
         dto.setIdAnimal(5L);
         dto.setNombre("Test");
         dto.setEmail("test@correo.com");
         dto.setTelefono("123456");
-        dto.setMotivo("Porque sí");
+        dto.setMotivo("Me encantan los animales");
 
         Animal animal = new Animal();
         Usuario usuario = new Usuario();
         usuario.setIdUsuario(1L);
-
 
         when(animalRepository.findById(5L)).thenReturn(Optional.of(animal));
         when(usuarioRepository.findByCorreo("correo@prueba.com")).thenReturn(Optional.of(usuario));
@@ -60,22 +59,23 @@ class SolicitudAdopcionServiceImplTest {
     }
 
     @Test
-    void guardarSolicitud_ActualizaEstado() {
-        SolicitudAdopcionDTO dto = new SolicitudAdopcionDTO();
-        dto.setId(1L);
-        dto.setEstado("ACEPTADA");
+    void actualizarSolicitud() {
 
         SolicitudAdopcion solicitud = new SolicitudAdopcion();
-        solicitud.setEstado("PENDIENTE");
+        solicitud.setId(1L);
+        solicitud.setEstado("Pendiente");
 
+        SolicitudAdopcionDTO dto = new SolicitudAdopcionDTO();
+        dto.setId(1L);
+        dto.setEstado("Aceptada");
 
         when(solicitudRepository.findById(1L)).thenReturn(Optional.of(solicitud));
-
+        when(solicitudRepository.save(solicitud)).thenReturn(solicitud);
 
         solicitudService.guardarSolicitud(dto);
 
-
-        assertEquals("ACEPTADA", solicitud.getEstado());
+        assertEquals("Aceptada", solicitud.getEstado());
         verify(solicitudRepository).save(solicitud);
     }
+
 }
